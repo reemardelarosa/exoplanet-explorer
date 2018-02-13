@@ -68,15 +68,18 @@ Instructions:
       .then(function(response) {
         console.log(response);
         addSearchHeader(response.query);
-        return response.results[0];
-      }).then(function(url) {
-        return getJSON(url);
-      }).then(function(response) {
-        createPlanetThumb(response);
-        console.log(response);
-      }).catch(function(error) {
+        return getJSON(response.results[0]);
+      }).catch(function() {
+        throw Error('Search Request Error');
+      })
+      .then(createPlanetThumb)
+      .then(undefined, function(error) {
         addSearchHeader('unknown');
         console.log(error);
       });
+      // .catch(function(error) {
+      //   addSearchHeader('unknown');
+      //   console.log(error);
+      // });
   });
 })(document);
