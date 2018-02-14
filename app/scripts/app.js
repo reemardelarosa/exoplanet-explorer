@@ -62,10 +62,48 @@ Instructions:
     /*
     Refactor this code!
      */
+    // getJSON('../data/earth-like-results.json')
+    // .then(function(response) {
+    //   addSearchHeader(response.query);
+
+    //   var promise = Promise.resolve();
+
+    //   response.results.forEach(function(url) {
+    //     getJSON(url).then(createPlanetThumb);
+    //   });
+    // });
+
+    // getJSON('../data/earth-like-results.json')
+    // .then(function(response) {
+    //   addSearchHeader(response.query);
+
+    //   var promise = Promise.resolve();
+      
+    //   response.results.forEach(function(url) {
+    //     promise.then(function() {
+    //       processThumbnail(url);
+    //     });
+    //   });
+
+    //   var processThumbnail = function(url) {
+    //     getJSON(url).then(createPlanetThumb);
+    //   };
+    // })
+    // .catch(function(error) {
+    //   console.log(error);
+    // });
+
     getJSON('../data/earth-like-results.json')
     .then(function(response) {
+      addSearchHeader(response.query);
+
+      var sequence = Promise.resolve();
+      
       response.results.forEach(function(url) {
-        getJSON(url).then(createPlanetThumb);
+        sequence = sequence.then(function() {
+          return getJSON(url);
+        })
+        .then(createPlanetThumb);
       });
     });
   });
