@@ -60,5 +60,27 @@ Instructions:
      */
 
     // getJSON('../data/earth-like-results.json')
+    //   .then(function(response) {
+    //     console.log(response);
+    //     addSearchHeader(response.query);
+
+    //     var seq = Promise.resolve();
+
+    //     response.results.map(function(url) {
+    //       console.log(url);
+    //       seq.then(function() {
+    //         return getJSON(url);
+    //       }).then(createPlanetThumb);
+    //     });
+    //   });
+    
+      getJSON('../data/earth-like-results.json')
+      .then(function(response) {
+        addSearchHeader(response.query);
+
+        response.results.map(function(url) {
+          getJSON(url).then(createPlanetThumb);
+        });
+      });
   });
 })(document);
