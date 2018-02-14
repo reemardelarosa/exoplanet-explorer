@@ -64,9 +64,27 @@ Hint: you'll probably still need to use .map.
 
       addSearchHeader(response.query);
 
-      response.results.map(function(url) {
-        getJSON(url).then(createPlanetThumb);
-      });
+      Promise.all(response.results.map(getJSON))
+        .then(function(response) {
+          response.forEach(function(promise) {
+            createPlanetThumb(promise);
+          });
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     });
+    // .then(function(response) {
+    //   addSearchHeader(response.query);
+    //   return Promise.all(response.results.map(getJSON));
+    // })
+    // .then(function(arrayOfPlanetData) {
+    //   arrayOfPlanetData.forEach(function(planet) {
+    //     createPlanetThumb(planet);
+    //   });
+    // })
+    // .catch(function(error) {
+    //   console.log(error);
+    // });
   });
 })(document);
